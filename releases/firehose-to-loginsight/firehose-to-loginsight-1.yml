@@ -1,0 +1,19 @@
+name: firehose-to-loginsight
+version: "1"
+commit_hash: 0a5813b
+uncommitted_changes: false
+jobs:
+- name: firehose-to-loginsight
+  version: bd4133e48d35c924cd6975baf82a92ae66d5f58b
+  fingerprint: bd4133e48d35c924cd6975baf82a92ae66d5f58b
+  sha1: 1cae157db05d7d3440fced4dc89fb963f2290570
+packages:
+- name: firehose-to-loginsight
+  version: 757a9fe1ccecc5068bafeae879758826b3fdc37d
+  fingerprint: 757a9fe1ccecc5068bafeae879758826b3fdc37d
+  sha1: 5f229e23f1ffc32145589a221d09c5fffea80896
+  dependencies: []
+license:
+  version: 0fbc9511a7e7f3a4d2f1af47f5ed327237b5f06c
+  fingerprint: 0fbc9511a7e7f3a4d2f1af47f5ed327237b5f06c
+  sha1: d7bfe4d8af73ace04a890f950ab9d7763bafa37f
