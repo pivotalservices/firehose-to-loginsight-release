@@ -1,0 +1,96 @@
+#!/bin/bash
+
+set -eu
+
+RUN_DIR=/var/vcap/sys/run/firehose-to-loginsight
+LOG_DIR=/var/vcap/sys/log/firehose-to-loginsight
+TMP_DIR=/var/vcap/sys/tmp/firehose-to-loginsight
+STORE_DIR=/var/vcap/store/firehose-to-loginsight
+mkdir -p ${RUN_DIR} ${LOG_DIR} ${TMP_DIR} ${STORE_DIR}
+
+PIDFILE=${RUN_DIR}/firehose-to-loginsight.pid
+
+source /var/vcap/packages/firehose-to-loginsight/common/utils.sh
+
+export PATH=/var/vcap/packages/firehose-to-loginsight/bin:${PATH}
+
+case $1 in
+  start)
+    pid_guard ${PIDFILE} "firehose-to-loginsight"
+    echo $$ > ${PIDFILE}
+
+    <% if_p('env.http_proxy') do |http_proxy| %>
+    export HTTP_PROXY="<%= http_proxy %>"
+    export http_proxy="<%= http_proxy %>"
+    <% end %>
+    <% if_p('env.https_proxy') do |https_proxy| %>
+    export HTTPS_PROXY="<%= https_proxy %>"
+    export https_proxy="<%= https_proxy %>"
+    <% end %>
+    <% if_p('env.no_proxy') do |no_proxy| %>
+    export NO_PROXY="<%= no_proxy %>"
+    export no_proxy="<%= no_proxy %>"
+    <% end %>
+
+    export FIREHOSE_CLIENT_ID=<%= p("firehose_to_syslog.client_id") %>
+    export FIREHOSE_CLIENT_SECRET=<%= p("firehose_to_syslog.client_secret") %>
+    export SKIP_SSL_VALIDATION=<%= p("firehose_to_syslog.skip_ssl_validation") %>
+    export DEBUG=<%= p("firehose_to_syslog.debug") %>
+    export LOG_EVENT_TOTALS=<%= p("firehose_to_syslog.log_event_totals") %>
+    export INSIGHT_HAS_JSON_LOG_MSG=<%= p("firehose_to_syslog.insight_has_json_log_msg") %>
+    export INSIGHT_NOOP=<%= p("firehose_to_syslog.noop") %>
+    
+    exec chpst -u vcap:vcap firehose-to-loginsight \
+      --api-endpoint="<%= p('firehose_to_syslog.api_endpoint') %>" \
+      --insight-server="<%= p('firehose_to_syslog.insight_server') %>" \
+      <% if_p('firehose_to_syslog.doppler_endpoint') do |doppler_endpoint| %> \
+      --doppler-endpoint="<%= doppler_endpoint %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.subscription_id') do |subscription_id| %> \
+      --subscription-id="<%= subscription_id %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.fh_keep_alive') do |fh_keep_alive| %> \
+      --fh-keep-alive="<%= fh_keep_alive %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.log_event_totals_time') do |log_event_totals_time| %> \
+      --log-event-totals-time="<%= log_event_totals_time %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.events') do |events| %> \
+      --events="<%= events %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.boltdb_path') do |boltdb_path| %> \
+      --boltdb-path="<%= boltdb_path %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.cc_pull_time') do |cc_pull_time| %> \
+      --cc-pull-time="<%= cc_pull_time %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.extra_fields') do |extra_fields| %> \
+      --extra-fields="<%= extra_fields %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.insight_server_port') do |insight_server_port| %> \
+      --insight-server-port="<%= insight_server_port %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.insight_reserved_fields') do |insight_reserved_fields| %> \
+      --insight-reserved-fields="<%= insight_reserved_fields %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.insight_agent_id') do |insight_agent_id| %> \
+      --insight-agent-id="<%= insight_agent_id %>" \
+      <% end %> \
+      <% if_p('firehose_to_syslog.concurrent_workers') do |concurrent_workers| %> \
+      --concurrent-workers="<%= concurrent_workers %>" \
+      <% end %> \
+      >>  ${LOG_DIR}/firehose-to-loginsight.stdout.log \
+      2>> ${LOG_DIR}/firehose-to-loginsight.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait ${PIDFILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

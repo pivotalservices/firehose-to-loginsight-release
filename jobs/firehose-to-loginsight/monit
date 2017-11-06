@@ -1,0 +1,5 @@
+check process firehose-to-loginsight
+  with pidfile /var/vcap/sys/run/firehose-to-loginsight/firehose-to-loginsight.pid
+  start program "/var/vcap/jobs/firehose-to-loginsight/bin/firehose-to-loginsight_ctl start"
+  stop program "/var/vcap/jobs/firehose-to-loginsight/bin/firehose-to-loginsight_ctl stop"
+  group vcap

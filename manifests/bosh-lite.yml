@@ -1,0 +1,35 @@
+---
+name: firehose-to-loginsight
+
+releases:
+- name: firehose-to-loginsight
+  version: latest
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  canary_watch_time: 5000-60000
+  update_watch_time: 5000-60000
+
+instance_groups:
+- name: firehose-to-loginsight
+  azs: [z1]
+  instances: 2
+  jobs:
+  - name: firehose-to-loginsight
+    release: firehose-to-loginsight
+    properties:
+      firehose_to_syslog:
+        api_endpoint: https://localhost
+        insight_server: localhost
+        client_id: admin
+        client_secret: secret
+  vm_type: default
+  stemcell: default
+  networks:
+  - name: default

@@ -1,0 +1,6 @@
+---
+name: firehose-to-loginsight
+
+files:
+  - common/utils.sh
+  - firehose-to-loginsight
