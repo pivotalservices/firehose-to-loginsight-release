@@ -32,51 +32,51 @@ case $1 in
     export no_proxy="<%= no_proxy %>"
     <% end %>
 
-    export FIREHOSE_CLIENT_ID=<%= p("firehose_to_syslog.client_id") %>
-    export FIREHOSE_CLIENT_SECRET=<%= p("firehose_to_syslog.client_secret") %>
-    export SKIP_SSL_VALIDATION=<%= p("firehose_to_syslog.skip_ssl_validation") %>
-    export DEBUG=<%= p("firehose_to_syslog.debug") %>
-    export LOG_EVENT_TOTALS=<%= p("firehose_to_syslog.log_event_totals") %>
-    export INSIGHT_HAS_JSON_LOG_MSG=<%= p("firehose_to_syslog.insight_has_json_log_msg") %>
-    export INSIGHT_NOOP=<%= p("firehose_to_syslog.noop") %>
+    export FIREHOSE_CLIENT_ID=<%= p("firehose_to_loginsight.client_id") %>
+    export FIREHOSE_CLIENT_SECRET=<%= p("firehose_to_loginsight.client_secret") %>
+    export SKIP_SSL_VALIDATION=<%= p("firehose_to_loginsight.skip_ssl_validation") %>
+    export DEBUG=<%= p("firehose_to_loginsight.debug") %>
+    export LOG_EVENT_TOTALS=<%= p("firehose_to_loginsight.log_event_totals") %>
+    export INSIGHT_HAS_JSON_LOG_MSG=<%= p("firehose_to_loginsight.insight_has_json_log_msg") %>
+    export INSIGHT_NOOP=<%= p("firehose_to_loginsight.noop") %>
     
     exec chpst -u vcap:vcap firehose-to-loginsight \
-      --api-endpoint="<%= p('firehose_to_syslog.api_endpoint') %>" \
-      --insight-server="<%= p('firehose_to_syslog.insight_server') %>" \
-      <% if_p('firehose_to_syslog.doppler_endpoint') do |doppler_endpoint| %> \
+      --api-endpoint="<%= p('firehose_to_loginsight.api_endpoint') %>" \
+      --insight-server="<%= p('firehose_to_loginsight.insight_server') %>" \
+      <% if_p('firehose_to_loginsight.doppler_endpoint') do |doppler_endpoint| %> \
       --doppler-endpoint="<%= doppler_endpoint %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.subscription_id') do |subscription_id| %> \
+      <% if_p('firehose_to_loginsight.subscription_id') do |subscription_id| %> \
       --subscription-id="<%= subscription_id %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.fh_keep_alive') do |fh_keep_alive| %> \
+      <% if_p('firehose_to_loginsight.fh_keep_alive') do |fh_keep_alive| %> \
       --fh-keep-alive="<%= fh_keep_alive %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.log_event_totals_time') do |log_event_totals_time| %> \
+      <% if_p('firehose_to_loginsight.log_event_totals_time') do |log_event_totals_time| %> \
       --log-event-totals-time="<%= log_event_totals_time %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.events') do |events| %> \
+      <% if_p('firehose_to_loginsight.events') do |events| %> \
       --events="<%= events %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.boltdb_path') do |boltdb_path| %> \
+      <% if_p('firehose_to_loginsight.boltdb_path') do |boltdb_path| %> \
       --boltdb-path="<%= boltdb_path %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.cc_pull_time') do |cc_pull_time| %> \
+      <% if_p('firehose_to_loginsight.cc_pull_time') do |cc_pull_time| %> \
       --cc-pull-time="<%= cc_pull_time %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.extra_fields') do |extra_fields| %> \
+      <% if_p('firehose_to_loginsight.extra_fields') do |extra_fields| %> \
       --extra-fields="<%= extra_fields %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.insight_server_port') do |insight_server_port| %> \
+      <% if_p('firehose_to_loginsight.insight_server_port') do |insight_server_port| %> \
       --insight-server-port="<%= insight_server_port %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.insight_reserved_fields') do |insight_reserved_fields| %> \
+      <% if_p('firehose_to_loginsight.insight_reserved_fields') do |insight_reserved_fields| %> \
       --insight-reserved-fields="<%= insight_reserved_fields %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.insight_agent_id') do |insight_agent_id| %> \
+      <% if_p('firehose_to_loginsight.insight_agent_id') do |insight_agent_id| %> \
       --insight-agent-id="<%= insight_agent_id %>" \
       <% end %> \
-      <% if_p('firehose_to_syslog.concurrent_workers') do |concurrent_workers| %> \
+      <% if_p('firehose_to_loginsight.concurrent_workers') do |concurrent_workers| %> \
       --concurrent-workers="<%= concurrent_workers %>" \
       <% end %> \
       >>  ${LOG_DIR}/firehose-to-loginsight.stdout.log \

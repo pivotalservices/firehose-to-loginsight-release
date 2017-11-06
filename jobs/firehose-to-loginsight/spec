@@ -8,60 +8,60 @@ packages:
   - firehose-to-loginsight
 
 properties:
-  firehose_to_syslog.debug:
+  firehose_to_loginsight.debug:
     default: "false"
     description: "Enable debug mode. This enables additional logging"
-  firehose_to_syslog.api_endpoint:
+  firehose_to_loginsight.api_endpoint:
     description: "Api endpoint address. For bosh-lite installation of CF: https://api.10.244.0.34.xip.io"
-  firehose_to_syslog.doppler_endpoint:
+  firehose_to_loginsight.doppler_endpoint:
     description: "Overwrite default doppler endpoint return by /v2/info"
-  firehose_to_syslog.subscription_id:
+  firehose_to_loginsight.subscription_id:
     default: "firehose-to-loginsight"
     description: "Id for the subscription"
-  firehose_to_syslog.client_id:
+  firehose_to_loginsight.client_id:
     description: "Client ID"
-  firehose_to_syslog.client_secret:
+  firehose_to_loginsight.client_secret:
     description: "Client Secret."
-  firehose_to_syslog.skip_ssl_validation:
+  firehose_to_loginsight.skip_ssl_validation:
     default: "false"
     description: "Please don't"
-  firehose_to_syslog.fh_keep_alive:
+  firehose_to_loginsight.fh_keep_alive:
     default: "25s"
     description: "Keep Alive duration for the firehose consumer"
-  firehose_to_syslog.log_event_totals:
+  firehose_to_loginsight.log_event_totals:
     default: "false"
     description: "Logs the counters for all selected events since nozzle was last started."
-  firehose_to_syslog.log_event_totals_time:
+  firehose_to_loginsight.log_event_totals_time:
     default: "30s"
     description: "How frequently the event totals are calculated (in sec)."
-  firehose_to_syslog.events:
+  firehose_to_loginsight.events:
     default: "LogMessage"
     description: "Comma separated list of events you would like. Valid options are ContainerMetric, CounterEvent, Error, HttpStartStop, LogMessage, ValueMetric"
-  firehose_to_syslog.boltdb_path:
+  firehose_to_loginsight.boltdb_path:
     #default: "my.db"
     description: "Bolt Database path"
-  firehose_to_syslog.cc_pull_time:
+  firehose_to_loginsight.cc_pull_time:
     default: "60s"
     description: "CloudController Polling time in sec"
-  firehose_to_syslog.extra_fields:
+  firehose_to_loginsight.extra_fields:
     description: "Extra fields you want to annotate your events with, example: env:dev,something:other"
-  firehose_to_syslog.insight_server:
+  firehose_to_loginsight.insight_server:
     description: "log insight server address"
-  firehose_to_syslog.insight_server_port:
+  firehose_to_loginsight.insight_server_port:
     default: "9543"
     description: "log insight server port"
-  firehose_to_syslog.insight_reserved_fields:
+  firehose_to_loginsight.insight_reserved_fields:
     default: "event_type"
     description: "comma delimited list of fields that are reserved"
-  firehose_to_syslog.insight_agent_id:
+  firehose_to_loginsight.insight_agent_id:
     default: "1"
     description: "agent id for log insight"
-  firehose_to_syslog.insight_has_json_log_msg:
+  firehose_to_loginsight.insight_has_json_log_msg:
     default: "false"
     description: "app log message can be json"
-  firehose_to_syslog.concurrent_workers:
+  firehose_to_loginsight.concurrent_workers:
     description: ""
     default: 50
-  firehose_to_syslog.noop:
+  firehose_to_loginsight.noop:
     default: false
     description: "if it should avoid sending to log-insight"

@@ -24,7 +24,7 @@ instance_groups:
   - name: firehose-to-loginsight
     release: firehose-to-loginsight
     properties:
-      firehose_to_syslog:
+      firehose_to_loginsight:
         api_endpoint: https://localhost
         insight_server: localhost
         client_id: admin
